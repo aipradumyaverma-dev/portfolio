@@ -81,31 +81,12 @@ export default function Projects() {
     }
   ];
 
-  const filteredProjects = activeFilter === 'All' 
-    ? projects 
+  const filteredProjects = activeFilter === 'All'
+    ? projects
     : projects.filter(project => project.category === activeFilter);
 
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      // Animate project cards on scroll
-      gsap.from('.project-card', {
-        opacity: 0,
-        y: 80,
-        duration: 1,
-        stagger: 0.2,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: '.projects-grid',
-          start: "top 80%",
-          end: "bottom 20%",
-          toggleActions: "play none none reverse"
-        }
-      });
-
-    }, projectsRef);
-
-    return () => ctx.revert();
-  }, []);
+  // No GSAP animation needed - Framer Motion whileInView handles scroll animations
+  // This prevents conflicts and ensures projects always appear when scrolled into view
 
   return (
     <section id="projects" ref={projectsRef} className="py-20 px-6 relative overflow-hidden">
@@ -129,14 +110,14 @@ export default function Projects() {
             <span className="text-primary font-semibold tracking-wider uppercase">Portfolio</span>
             <div className="w-16 h-0.5 bg-gradient-to-l from-transparent to-primary"></div>
           </div>
-          
+
           <h2 className="text-4xl md:text-5xl font-bold mb-6">
             Featured
             <span className="gradient-text"> Projects</span>
           </h2>
-          
+
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto leading-relaxed">
-            A showcase of my recent work, featuring web applications, mobile apps, 
+            A showcase of my recent work, featuring web applications, mobile apps,
             and full-stack solutions built with modern technologies.
           </p>
         </motion.div>
@@ -153,11 +134,10 @@ export default function Projects() {
             <button
               key={filter}
               onClick={() => setActiveFilter(filter)}
-              className={`px-6 py-3 rounded-full font-medium transition-all duration-300 flex items-center gap-2 ${
-                activeFilter === filter
-                  ? 'hero-button'
-                  : 'outline-button'
-              }`}
+              className={`px-6 py-3 rounded-full font-medium transition-all duration-300 flex items-center gap-2 ${activeFilter === filter
+                ? 'hero-button'
+                : 'outline-button'
+                }`}
             >
               <Filter size={16} />
               {filter}
@@ -175,12 +155,11 @@ export default function Projects() {
               key={project.id}
               layout
               initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className={`project-card glass-card rounded-2xl overflow-hidden hover:border-primary/30 transition-all duration-500 group ${
-                project.featured ? 'lg:col-span-2' : ''
-              }`}
+              className={`project-card glass-card rounded-2xl overflow-hidden hover:border-primary/30 transition-all duration-500 group ${project.featured ? 'lg:col-span-2' : ''
+                }`}
             >
               {/* Project Image */}
               <div className="relative overflow-hidden">
@@ -189,7 +168,7 @@ export default function Projects() {
                   alt={project.title}
                   className="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110"
                 />
-                
+
                 {/* Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center">
                   <div className="flex space-x-4">
@@ -230,7 +209,7 @@ export default function Projects() {
                 <h3 className="text-xl font-bold text-foreground mb-3 group-hover:text-primary transition-colors duration-300">
                   {project.title}
                 </h3>
-                
+
                 <p className="text-muted-foreground mb-4 leading-relaxed">
                   {project.description}
                 </p>

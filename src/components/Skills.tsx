@@ -21,20 +21,20 @@ const containerVariants: Variants = {
 };
 
 const itemVariants: Variants = {
-  hidden: { 
-    opacity: 0, 
+  hidden: {
+    opacity: 0,
     y: 50,
     scale: 0.9
   },
-  visible: { 
-    opacity: 1, 
+  visible: {
+    opacity: 1,
     y: 0,
     scale: 1,
-    transition: { 
+    transition: {
       duration: 0.6,
       type: "spring" as const,
       bounce: 0.4
-    } 
+    }
   },
   exit: {
     opacity: 0,
@@ -48,31 +48,12 @@ export default function Skills() {
   const skillsRef = useRef<HTMLDivElement>(null);
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
 
-  const filteredSkills = selectedCategory === "All" 
-    ? SKILLS 
+  const filteredSkills = selectedCategory === "All"
+    ? SKILLS
     : SKILLS.filter(skill => skill.category === selectedCategory);
 
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      // Animate skill cards on scroll
-      gsap.from('.skill-card', {
-        opacity: 0,
-        y: 80,
-        duration: 1,
-        stagger: 0.2,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: '.skills-container',
-          start: "top 80%",
-          end: "bottom 20%",
-          toggleActions: "play none none reverse"
-        }
-      });
-
-    }, skillsRef);
-
-    return () => ctx.revert();
-  }, []);
+  // No GSAP animation needed - Framer Motion whileInView handles scroll animations
+  // This prevents conflicts and ensures cards always appear when scrolled into view
 
   return (
     <section id="skills" ref={skillsRef} className="py-20 px-6 relative overflow-hidden">
@@ -96,14 +77,14 @@ export default function Skills() {
             <span className="text-primary font-semibold tracking-wider uppercase">My Skills</span>
             <div className="w-16 h-0.5 bg-gradient-to-l from-transparent to-primary"></div>
           </div>
-          
+
           <h2 className="text-4xl md:text-5xl font-bold mb-6">
             What I Bring to the
             <span className="gradient-text"> Table</span>
           </h2>
-          
+
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto leading-relaxed">
-            A comprehensive skill set spanning modern web technologies, 
+            A comprehensive skill set spanning modern web technologies,
             with a focus on creating scalable and performant applications.
           </p>
         </motion.div>
@@ -120,11 +101,10 @@ export default function Skills() {
             <Badge
               key={category}
               variant={selectedCategory === category ? "default" : "secondary"}
-              className={`cursor-pointer px-6 py-2 text-sm font-semibold transition-all duration-300 hover:scale-105 ${
-                selectedCategory === category 
-                  ? "bg-primary text-primary-foreground shadow-lg animate-pulse-glow" 
-                  : "hover:bg-secondary/80"
-              }`}
+              className={`cursor-pointer px-6 py-2 text-sm font-semibold transition-all duration-300 hover:scale-105 ${selectedCategory === category
+                ? "bg-primary text-primary-foreground shadow-lg animate-pulse-glow"
+                : "hover:bg-secondary/80"
+                }`}
               onClick={() => setSelectedCategory(category)}
             >
               {category}
@@ -148,22 +128,23 @@ export default function Skills() {
                   key={`${skill.name}-${selectedCategory}`}
                   variants={itemVariants}
                   initial="hidden"
-                  animate="visible"
+                  whileInView="visible"
+                  viewport={{ once: true, margin: "-100px" }}
                   exit="exit"
                   layout
                   className="skill-card glass-card p-6 rounded-2xl hover:border-primary/30 transition-all duration-500 group relative"
-                  style={{ 
+                  style={{
                     animationDelay: `${index * 0.1}s`,
                   }}
                 >
                   {/* Glow effect */}
                   <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-accent/10 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                  
+
                   {/* Card content */}
                   <div className="relative z-10">
                     {/* Icon and Name */}
                     <div className="flex flex-col items-center text-center mb-4">
-                      <div 
+                      <div
                         className="mb-3 p-3 rounded-full bg-background/50 backdrop-blur-sm group-hover:scale-110 transition-transform duration-300"
                         style={{ color: skill.color }}
                       >
@@ -172,8 +153,8 @@ export default function Skills() {
                       <h3 className="text-lg font-bold text-foreground mb-1">
                         {skill.name}
                       </h3>
-                      <Badge 
-                        variant="outline" 
+                      <Badge
+                        variant="outline"
                         className="text-xs border-primary/30 text-primary bg-background/50"
                       >
                         {skill.category}
@@ -193,14 +174,14 @@ export default function Skills() {
                         <motion.div
                           initial={{ width: "0%" }}
                           whileInView={{ width: `${skill.level}%` }}
-                          transition={{ 
-                            duration: 1.5, 
-                            delay: 0.5, 
-                            ease: "easeOut" as const 
+                          transition={{
+                            duration: 1.5,
+                            delay: 0.5,
+                            ease: "easeOut" as const
                           }}
                           viewport={{ once: true }}
                           className="h-2 rounded-full relative overflow-hidden"
-                          style={{ 
+                          style={{
                             background: `linear-gradient(90deg, ${skill.color}, ${skill.color}99)`,
                           }}
                         >
@@ -243,8 +224,8 @@ export default function Skills() {
             { label: "Backend", value: SKILLS.filter(s => s.category === "Backend").length },
             { label: "Avg. Experience", value: "1.5+" }
           ].map((stat, index) => (
-            <Card 
-              key={stat.label} 
+            <Card
+              key={stat.label}
               className="p-6 text-center glass-card hover:border-primary/30 transition-all duration-300"
             >
               <div className="text-3xl font-bold gradient-text mb-2">
@@ -268,7 +249,7 @@ export default function Skills() {
           <h3 className="text-lg font-semibold mb-6 text-muted-foreground">Other Technologies & Tools</h3>
           <div className="flex flex-wrap justify-center gap-3">
             {[
-              'GraphQL', 'Redis', 'Nginx', 'Linux', 'Jest', 
+              'GraphQL', 'Redis', 'Nginx', 'Linux', 'Jest',
               'Cypress', 'Adobe Creative Suite', 'Webpack', 'Vite', 'Prisma'
             ].map((tech, index) => (
               <motion.span

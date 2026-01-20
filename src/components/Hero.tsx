@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { Camera, X, Download, Mail, Github, Linkedin, Code2 } from 'lucide-react';
 import gsap from 'gsap';
 // import profileImage from '@/assets/profile-image.jpg';
-import profileImage from '@/components/profile.png'; 
+import profileImage from '@/components/profile.png';
 
 export default function Hero() {
   const heroRef = useRef<HTMLDivElement>(null);
@@ -92,7 +92,7 @@ export default function Hero() {
 
       <div className="container mx-auto relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-          
+
           {/* Left Content */}
           <motion.div
             initial={{ opacity: 0, x: -100 }}
@@ -111,13 +111,13 @@ export default function Hero() {
                 <div className="w-16 h-0.5 bg-gradient-to-r from-primary to-accent"></div>
                 <span className="text-muted-foreground text-lg">Hello, I'm</span>
               </div>
-              
+
               <h1 className="text-6xl md:text-7xl font-bold">
                 <span className="gradient-text">Pradumya</span>
                 <br />
                 <span className="text-foreground">Verma</span>
               </h1>
-              
+
               <div className="flex items-center space-x-3">
                 <Code2 className="text-primary" size={24} />
                 <h2 className="text-2xl md:text-3xl font-semibold text-muted-foreground">
@@ -133,7 +133,7 @@ export default function Hero() {
               transition={{ duration: 0.8, delay: 0.4 }}
               className="text-lg text-muted-foreground leading-relaxed max-w-md"
             >
-              Passionate about creating innovative digital solutions that make a difference. 
+              Passionate about creating innovative digital solutions that make a difference.
               I build scalable applications with modern technologies and clean code.
             </motion.p>
 
@@ -219,13 +219,13 @@ export default function Hero() {
             <div className="relative">
               {/* Animated Background Glow */}
               <div className="absolute -inset-8 bg-gradient-to-br from-primary/30 to-accent/30 rounded-full blur-3xl animate-pulse-glow"></div>
-              
+
               {/* Profile Container */}
               <div className="relative">
                 {/* Rotating Border */}
-                <div className="absolute -inset-4 bg-gradient-to-br from-primary via-accent to-primary rounded-full animate-gradient-shift opacity-75" 
-                     style={{ backgroundSize: '400% 400%' }}></div>
-                
+                <div className="absolute -inset-4 bg-gradient-to-br from-primary via-accent to-primary rounded-full animate-gradient-shift opacity-75"
+                  style={{ backgroundSize: '400% 400%' }}></div>
+
                 {/* Profile Image */}
                 <div className="relative w-80 h-80 rounded-full overflow-hidden border-4 border-background profile-3d group">
                   <img
@@ -233,30 +233,6 @@ export default function Hero() {
                     alt="Pradumya Verma"
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                   />
-
-                  {/* Upload Overlay */}
-                  <motion.div 
-                    className="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center"
-                    whileHover={{ backdropFilter: "blur(10px)" }}
-                  >
-                    {/* <div className="flex space-x-3">
-                      <button
-                        onClick={() => fileInputRef.current?.click()}
-                        className="p-3 bg-primary rounded-full hover:bg-primary/80 transition-colors duration-300 transform hover:scale-110"
-                      >
-                        <Camera className="text-primary-foreground" size={20} />
-                      </button>
-                      
-                      {currentImage !== profileImage && (
-                        <button
-                          onClick={resetImage}
-                          className="p-3 bg-destructive rounded-full hover:bg-destructive/80 transition-colors duration-300 transform hover:scale-110"
-                        >
-                          <X className="text-destructive-foreground" size={20} />
-                        </button>
-                      )}
-                    </div> */}
-                  </motion.div>
                 </div>
 
                 {/* Floating Indicators */}
@@ -265,7 +241,7 @@ export default function Hero() {
                   animate={{ scale: [1, 1.2, 1] }}
                   transition={{ duration: 2, repeat: Infinity }}
                 />
-                
+
                 <motion.div
                   className="absolute -bottom-6 -left-6 glass-card px-4 py-2 rounded-full"
                   initial={{ opacity: 0, y: 20 }}

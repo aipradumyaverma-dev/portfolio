@@ -2,13 +2,13 @@ import { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { 
-  Mail, 
-  Phone, 
-  MapPin, 
-  Send, 
-  Github, 
-  Linkedin, 
+import {
+  Mail,
+  Phone,
+  MapPin,
+  Send,
+  Github,
+  Linkedin,
   Twitter,
   MessageSquare
 } from 'lucide-react';
@@ -55,42 +55,8 @@ export default function Contact() {
     { icon: MessageSquare, href: "#", label: "Discord", color: "hover:text-indigo-500" }
   ];
 
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      // Animate contact cards
-      gsap.from('.contact-card', {
-        opacity: 0,
-        y: 50,
-        duration: 1,
-        stagger: 0.2,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: '.contact-section',
-          start: "top 80%",
-          end: "bottom 20%",
-          toggleActions: "play none none reverse"
-        }
-      });
-
-      // Animate form elements
-      gsap.from('.form-element', {
-        opacity: 0,
-        x: -30,
-        duration: 0.8,
-        stagger: 0.1,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: '.contact-form',
-          start: "top 80%",
-          end: "bottom 20%",
-          toggleActions: "play none none reverse"
-        }
-      });
-
-    }, contactRef);
-
-    return () => ctx.revert();
-  }, []);
+  // No GSAP animation needed - Framer Motion whileInView handles scroll animations
+  // This prevents conflicts and ensures contact elements always appear when scrolled into view
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -128,14 +94,14 @@ export default function Contact() {
             <span className="text-primary font-semibold tracking-wider uppercase">Get In Touch</span>
             <div className="w-16 h-0.5 bg-gradient-to-l from-transparent to-primary"></div>
           </div>
-          
+
           <h2 className="text-4xl md:text-5xl font-bold mb-6">
             Let's Work
             <span className="gradient-text"> Together</span>
-          </h2> 
-          
+          </h2>
+
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto leading-relaxed">
-            Have a project in mind or just want to chat about technology? 
+            Have a project in mind or just want to chat about technology?
             I'd love to hear from you. Let's create something amazing together.
           </p>
         </motion.div>
@@ -152,7 +118,7 @@ export default function Contact() {
             <div>
               <h3 className="text-2xl font-bold text-foreground mb-6">Let's Connect</h3>
               <p className="text-muted-foreground leading-relaxed mb-8">
-                I'm always open to discussing new opportunities, interesting projects, 
+                I'm always open to discussing new opportunities, interesting projects,
                 or just having a conversation about the latest in web development.
               </p>
             </div>
@@ -232,7 +198,7 @@ export default function Contact() {
           >
             <div className="glass-card p-8 rounded-2xl">
               <h3 className="text-2xl font-bold text-foreground mb-6">Send a Message</h3>
-              
+
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="form-element">
@@ -250,7 +216,7 @@ export default function Contact() {
                       placeholder="John Doe"
                     />
                   </div>
-                  
+
                   <div className="form-element">
                     <label htmlFor="email" className="block text-sm font-medium text-foreground mb-2">
                       Email Address

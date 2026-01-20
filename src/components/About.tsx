@@ -43,56 +43,8 @@ export default function About() {
     }
   ];
 
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      // Animate stats cards
-      gsap.from('.stat-card', {
-        opacity: 0,
-        y: 50,
-        duration: 1,
-        stagger: 0.1,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: '.stats-container',
-          start: "top 80%",
-          end: "bottom 20%",
-          toggleActions: "play none none reverse"
-        }
-      });
-
-      // Animate timeline items
-      gsap.from('.timeline-item', {
-        opacity: 0,
-        x: -50,
-        duration: 0.8,
-        stagger: 0.2,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: '.timeline-container',
-          start: "top 80%",
-          end: "bottom 20%",
-          toggleActions: "play none none reverse"
-        }
-      });
-
-      // Animate counter numbers
-      gsap.from('.counter', {
-        innerText: 0,
-        duration: 2,
-        ease: "power2.out",
-        snap: { innerText: 1 },
-        scrollTrigger: {
-          trigger: '.stats-container',
-          start: "top 80%",
-          end: "bottom 20%",
-          toggleActions: "play none none reverse"
-        }
-      });
-
-    }, aboutRef);
-
-    return () => ctx.revert();
-  }, []);
+  // No GSAP animation needed - Framer Motion whileInView handles scroll animations
+  // This prevents conflicts and ensures content always appears when scrolled into view
 
   return (
     <section id="about" ref={aboutRef} className="py-20 px-6 relative overflow-hidden">
@@ -116,7 +68,7 @@ export default function About() {
             <span className="text-primary font-semibold tracking-wider uppercase">About Me</span>
             <div className="w-16 h-0.5 bg-gradient-to-l from-transparent to-primary"></div>
           </div>
-          
+
           <h2 className="text-4xl md:text-5xl font-bold mb-6">
             My Journey in
             <span className="gradient-text"> Development</span>
@@ -137,13 +89,13 @@ export default function About() {
                 Passionate Developer & Problem Solver
               </h3>
               <p className="text-muted-foreground leading-relaxed">
-                I'm a dedicated full-stack developer with a passion for creating innovative 
-                digital solutions. My journey in tech started with curiosity and has evolved 
+                I'm a dedicated full-stack developer with a passion for creating innovative
+                digital solutions. My journey in tech started with curiosity and has evolved
                 into a career focused on building scalable, user-centric applications.
               </p>
               <p className="text-muted-foreground leading-relaxed">
-                With expertise spanning modern web technologies, I enjoy tackling complex 
-                challenges and turning ideas into reality. I believe in clean code, 
+                With expertise spanning modern web technologies, I enjoy tackling complex
+                challenges and turning ideas into reality. I believe in clean code,
                 continuous learning, and delivering exceptional user experiences.
               </p>
             </div>
@@ -186,7 +138,7 @@ export default function About() {
             <div className="relative">
               {/* Timeline Line */}
               <div className="absolute left-6 top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary via-accent to-primary"></div>
-              
+
               {timeline.map((item, index) => (
                 <motion.div
                   key={item.year}
@@ -198,7 +150,7 @@ export default function About() {
                 >
                   {/* Timeline Dot */}
                   <div className="absolute left-4 top-2 w-4 h-4 bg-gradient-to-br from-primary to-accent rounded-full border-4 border-background shadow-lg"></div>
-                  
+
                   {/* Content */}
                   <div className="glass-card p-6 rounded-xl hover:border-primary/30 transition-all duration-300">
                     <div className="flex items-center justify-between mb-2">
