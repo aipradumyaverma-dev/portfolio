@@ -18,28 +18,34 @@ export default function About() {
 
   const timeline = [
     {
+      year: "2025",
+      title: "Software Developer",
+      company: "IDEAL IT TECHNO",
+      description: "Full-time software developer role, currently working on enterprise applications and scalable solutions."
+    },
+    {
       year: "2024",
-      title: "Senior Full Stack Developer",
-      company: "Tech Solutions Inc.",
-      description: "Leading development of enterprise applications and mentoring junior developers."
+      title: "Software Developer",
+      company: "Samyotech Software Solutions Pvt. Ltd.",
+      description: "Developed and maintained client projects in Indore. Worked on full-stack development using modern technologies."
     },
     {
       year: "2023",
-      title: "Full Stack Developer",
-      company: "Digital Agency Pro",
-      description: "Developed and maintained multiple client projects using React, Node.js, and cloud technologies."
+      title: "Trainee",
+      company: "InfoBeans Foundation",
+      description: "10-month training program focused on software development fundamentals and real-world project experience."
     },
     {
       year: "2022",
-      title: "Frontend Developer",
-      company: "StartUp Labs",
-      description: "Created responsive web applications and improved user experience across multiple products."
+      title: "Master of Computer Applications (MCA)",
+      company: "Rajiv Gandhi Technology University",
+      description: "Completed MCA degree specializing in software development and modern web technologies."
     },
     {
-      year: "2021",
-      title: "Computer Science Graduate",
-      company: "University",
-      description: "Graduated with honors, specializing in software engineering and web technologies."
+      year: "2020-2022",
+      title: "Bachelor of Science in Computer Science",
+      company: "Vikram University",
+      description: "Graduated with BSc in Computer Science, building strong foundation in programming and development."
     }
   ];
 
@@ -88,16 +94,68 @@ export default function About() {
               <h3 className="text-2xl font-bold text-foreground">
                 Passionate Developer & Problem Solver
               </h3>
+              <p className="text-lg text-primary font-medium">
+                Building scalable, user-friendly web applications that solve real-world problems.
+              </p>
               <p className="text-muted-foreground leading-relaxed">
                 I'm a dedicated full-stack developer with a passion for creating innovative
                 digital solutions. My journey in tech started with curiosity and has evolved
-                into a career focused on building scalable, user-centric applications.
+                into a strong focus on building clean, scalable, and user-centric applications.
               </p>
               <p className="text-muted-foreground leading-relaxed">
-                With expertise spanning modern web technologies, I enjoy tackling complex
+                With expertise in modern web technologies, I enjoy tackling complex
                 challenges and turning ideas into reality. I believe in clean code,
                 continuous learning, and delivering exceptional user experiences.
               </p>
+            </div>
+
+            {/* Tech Stack */}
+            {/* <div className="glass-card p-6 rounded-xl space-y-3">
+              <h4 className="text-lg font-semibold text-primary">Tech Stack</h4>
+              <div className="space-y-2 text-sm text-muted-foreground">
+                <p><span className="text-foreground font-medium">Frontend:</span> React, Vite, Next.js, Tailwind CSS</p>
+                <p><span className="text-foreground font-medium">Backend:</span> Node.js, Express</p>
+                <p><span className="text-foreground font-medium">Database:</span> MongoDB, Firebase</p>
+                <p><span className="text-foreground font-medium">Tools:</span> Git, GitHub, Vercel, Postman</p>
+              </div>
+            </div> */}
+
+            {/* What I Do */}
+            <div className="glass-card p-6 rounded-xl space-y-3">
+              <h4 className="text-lg font-semibold text-accent">What I Do</h4>
+              <ul className="space-y-2 text-sm text-muted-foreground">
+                <li className="flex items-start">
+                  <span className="text-primary mr-2">•</span>
+                  Build responsive and high-performance web applications
+                </li>
+                <li className="flex items-start">
+                  <span className="text-primary mr-2">•</span>
+                  Design clean and reusable UI components
+                </li>
+                <li className="flex items-start">
+                  <span className="text-primary mr-2">•</span>
+                  Integrate APIs and third-party services
+                </li>
+                <li className="flex items-start">
+                  <span className="text-primary mr-2">•</span>
+                  Deploy and maintain production-ready applications
+                </li>
+              </ul>
+            </div>
+
+            {/* Let's Work Together */}
+            <div className="glass-card p-6 rounded-xl border border-primary/30 space-y-3">
+              <h4 className="text-lg font-semibold text-foreground">Let's Work Together</h4>
+              <p className="text-sm text-muted-foreground">
+                I'm open to freelance work, internships, and full-time opportunities.
+                Feel free to reach out through the contact form.
+              </p>
+              <a
+                href="#contact"
+                className="inline-block px-6 py-2 bg-gradient-to-r from-primary to-accent text-white rounded-lg font-medium hover:shadow-lg transition-all duration-300"
+              >
+                Get In Touch
+              </a>
             </div>
 
             {/* Core Values */}

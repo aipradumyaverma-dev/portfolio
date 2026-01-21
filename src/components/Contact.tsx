@@ -1,7 +1,6 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import emailjs from '@emailjs/browser';
 import {
   Mail,
   Phone,
@@ -10,19 +9,26 @@ import {
   Github,
   Linkedin,
   Twitter,
-  MessageSquare
+  MessageSquare,
+  CheckCircle,
+  AlertCircle,
+  Loader2
 } from 'lucide-react';
-
-gsap.registerPlugin(ScrollTrigger);
 
 export default function Contact() {
   const contactRef = useRef<HTMLDivElement>(null);
+  const formRef = useRef<HTMLFormElement>(null);
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     subject: '',
     message: ''
   });
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [errorMessage, setErrorMessage] = useState('');
 
   const contactInfo = [
     {
@@ -36,32 +42,79 @@ export default function Contact() {
       icon: Phone,
       label: "Phone",
       value: "+91 (7470672478)",
-      href: "tel:+15551234567",
+      href: "tel:+917470672478",
       color: "text-green-500"
     },
     {
       icon: MapPin,
       label: "Location",
-      value: "Indore",
-      href: "#",
+      value: "Indore, Vijay Nagar",
+      href: "https://www.google.com/maps/search/?api=1&query=Indore+Vijay+Nagar",
       color: "text-blue-500"
     }
   ];
 
   const socialLinks = [
     { icon: Github, href: "#", label: "GitHub", color: "hover:text-gray-400" },
-    { icon: Linkedin, href: "#", label: "LinkedIn", color: "hover:text-blue-500" },
+    { icon: Linkedin, href: import.meta.env.VITE_LINKEDIN_URL || "#", label: "LinkedIn", color: "hover:text-blue-500" },
     { icon: Twitter, href: "#", label: "Twitter", color: "hover:text-blue-400" },
     { icon: MessageSquare, href: "#", label: "Discord", color: "hover:text-indigo-500" }
   ];
 
-  // No GSAP animation needed - Framer Motion whileInView handles scroll animations
-  // This prevents conflicts and ensures contact elements always appear when scrolled into view
-
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission here
-    console.log('Form submitted:', formData);
+
+    // Validate environment variables
+    const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+    const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+
+    if (!serviceId || !templateId || !publicKey) {
+      setSubmitStatus('error');
+      setErrorMessage('EmailJS configuration missing. Please add your credentials to .env file.');
+      return;
+    }
+
+    setIsSubmitting(true);
+    setSubmitStatus('idle');
+
+    try {
+      // Send email using EmailJS
+      await emailjs.send(
+        serviceId,
+        templateId,
+        {
+          from_name: formData.name,
+          from_email: formData.email,
+          subject: formData.subject,
+          message: formData.message,
+          to_email: 'pradumyaverma30@email.com', // Your receiving email
+        },
+        publicKey
+      );
+
+      // Success
+      setSubmitStatus('success');
+      setFormData({ name: '', email: '', subject: '', message: '' });
+
+      // Reset success message after 5 seconds
+      setTimeout(() => {
+        setSubmitStatus('idle');
+      }, 5000);
+
+    } catch (error) {
+      console.error('Email send error:', error);
+      setSubmitStatus('error');
+      setErrorMessage('Failed to send message. Please try again or contact me directly via email.');
+
+      // Reset error message after 5 seconds
+      setTimeout(() => {
+        setSubmitStatus('idle');
+        setErrorMessage('');
+      }, 5000);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -129,6 +182,8 @@ export default function Contact() {
                 <motion.a
                   key={info.label}
                   href={info.href}
+                  target={info.label === "Location" ? "_blank" : undefined}
+                  rel={info.label === "Location" ? "noopener noreferrer" : undefined}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: index * 0.1 }}
@@ -199,7 +254,7 @@ export default function Contact() {
             <div className="glass-card p-8 rounded-2xl">
               <h3 className="text-2xl font-bold text-foreground mb-6">Send a Message</h3>
 
-              <form onSubmit={handleSubmit} className="space-y-6">
+              <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="form-element">
                     <label htmlFor="name" className="block text-sm font-medium text-foreground mb-2">
@@ -212,7 +267,8 @@ export default function Contact() {
                       value={formData.name}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-3 bg-muted border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300"
+                      disabled={isSubmitting}
+                      className="w-full px-4 py-3 bg-muted border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300 disabled:opacity-50"
                       placeholder="John Doe"
                     />
                   </div>
@@ -228,7 +284,8 @@ export default function Contact() {
                       value={formData.email}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-3 bg-muted border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300"
+                      disabled={isSubmitting}
+                      className="w-full px-4 py-3 bg-muted border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300 disabled:opacity-50"
                       placeholder="john@example.com"
                     />
                   </div>
@@ -245,7 +302,8 @@ export default function Contact() {
                     value={formData.subject}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 bg-muted border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300"
+                    disabled={isSubmitting}
+                    className="w-full px-4 py-3 bg-muted border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300 disabled:opacity-50"
                     placeholder="Project Discussion"
                   />
                 </div>
@@ -260,20 +318,59 @@ export default function Contact() {
                     value={formData.message}
                     onChange={handleChange}
                     required
+                    disabled={isSubmitting}
                     rows={6}
-                    className="w-full px-4 py-3 bg-muted border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300 resize-none"
+                    className="w-full px-4 py-3 bg-muted border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300 resize-none disabled:opacity-50"
                     placeholder="Tell me about your project..."
                   />
                 </div>
 
+                {/* Success Message */}
+                {submitStatus === 'success' && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="p-4 bg-green-500/10 border border-green-500/30 rounded-lg flex items-center space-x-3"
+                  >
+                    <CheckCircle className="text-green-500" size={20} />
+                    <p className="text-green-500 text-sm font-medium">
+                      Message sent successfully! I'll get back to you soon.
+                    </p>
+                  </motion.div>
+                )}
+
+                {/* Error Message */}
+                {submitStatus === 'error' && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="p-4 bg-red-500/10 border border-red-500/30 rounded-lg flex items-center space-x-3"
+                  >
+                    <AlertCircle className="text-red-500" size={20} />
+                    <p className="text-red-500 text-sm font-medium">
+                      {errorMessage}
+                    </p>
+                  </motion.div>
+                )}
+
                 <motion.button
                   type="submit"
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="form-element w-full hero-button py-4 rounded-lg font-medium flex items-center justify-center space-x-2 group"
+                  disabled={isSubmitting}
+                  whileHover={{ scale: isSubmitting ? 1 : 1.02 }}
+                  whileTap={{ scale: isSubmitting ? 1 : 0.98 }}
+                  className="form-element w-full hero-button py-4 rounded-lg font-medium flex items-center justify-center space-x-2 group disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  <Send size={20} className="group-hover:translate-x-1 transition-transform duration-300" />
-                  <span>Send Message</span>
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 size={20} className="animate-spin" />
+                      <span>Sending...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Send size={20} className="group-hover:translate-x-1 transition-transform duration-300" />
+                      <span>Send Message</span>
+                    </>
+                  )}
                 </motion.button>
               </form>
 

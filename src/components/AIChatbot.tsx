@@ -12,7 +12,7 @@ export default function AIChatbot({ isOpen, onClose }: AIChatbotProps) {
     const [messages, setMessages] = useState<Message[]>([
         {
             role: 'assistant',
-            content: 'Hi! I\'m Pradumya\'s AI assistant. I can help you learn more about his skills, experience, and projects. What would you like to know?',
+            content: "Hi! I'm Pradumya Verma, nice to meet you! 👋 How can I help you today?",
             timestamp: new Date(),
         },
     ]);
@@ -67,7 +67,7 @@ export default function AIChatbot({ isOpen, onClose }: AIChatbotProps) {
 
             const errorMessage: Message = {
                 role: 'assistant',
-                content: 'I apologize, but I encountered an error. Please try again or contact Pradumya directly at pradumyaverma30@email.com',
+                content: 'I apologize, but I encountered a technical error. Please try again, or feel free to contact me directly at pradumyaverma30@email.com or +91 7470672478.',
                 timestamp: new Date(),
             };
 

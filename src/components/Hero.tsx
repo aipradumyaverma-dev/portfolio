@@ -21,7 +21,7 @@ export default function Hero() {
 
   const socialLinks = [
     { icon: Github, href: '#', label: 'GitHub' },
-    { icon: Linkedin, href: '#', label: 'LinkedIn' },
+    { icon: Linkedin, href: import.meta.env.VITE_LINKEDIN_URL || '#', label: 'LinkedIn' },
     { icon: Mail, href: '#', label: 'Email' }
   ];
 
@@ -144,10 +144,13 @@ export default function Hero() {
               transition={{ duration: 0.8, delay: 0.6 }}
               className="flex flex-wrap gap-4"
             >
-              <button className="hero-button px-8 py-3 rounded-full font-medium flex items-center gap-2">
+              <a
+                href="#contact"
+                className="hero-button px-8 py-3 rounded-full font-medium flex items-center gap-2"
+              >
                 <Mail size={18} />
                 Get In Touch
-              </button>
+              </a>
               <button className="outline-button px-8 py-3 rounded-full font-medium flex items-center gap-2">
                 <Download size={18} />
                 Download CV
